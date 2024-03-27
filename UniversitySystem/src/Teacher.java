@@ -23,6 +23,7 @@ public class Teacher extends User{
         return TypeUser.Teacher;
     }
 
+    //add student's grade
     public void addGrade(Student student,Grade grade){
         ArrayList<Grade> listGrade=student.getListGrade();
         listGrade.add(grade);

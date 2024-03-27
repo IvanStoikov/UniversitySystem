@@ -23,6 +23,8 @@ public UniversitySystem(){
         this.listUser = listUser;
     }
 
+
+    //login form
     public void logIn(Socket clintSocket) throws IOException {
         printToClient = new PrintStream(clintSocket.getOutputStream());
         inputFromClient = new Scanner(clintSocket.getInputStream());
@@ -57,6 +59,8 @@ public UniversitySystem(){
     }
 
 
+
+    //create admin method
     public boolean createAdmin(){
     printToClient.println("Enter userName: ");
     String username=inputFromClient.next();
@@ -67,6 +71,8 @@ public UniversitySystem(){
     return true;
 }
 
+
+//create student method
 public boolean createStudent(){
     printToClient.println("Enter userName");
     String username=inputFromClient.next();
@@ -84,6 +90,7 @@ public boolean createStudent(){
     return false;
 }
 
+//create teacher method
 public boolean createTeacher(){
     printToClient.println("Enter username: ");
     String userName=inputFromClient.next();
@@ -99,6 +106,8 @@ public boolean createTeacher(){
     return false;
 }
 
+
+//admin's menu
 public void adminMenu(Admin admin){
     printToClient.println("You can create a new user profile");
     printToClient.println("1-Admin\n2-Teacher\n3-Student\n");
@@ -130,7 +139,7 @@ public void adminMenu(Admin admin){
 }
 
 
-
+//validate teachers by their email and password
 public boolean validTeacher(String email,String password){
     String regexEmail="[a-z]+@tu-sofia\\\\.bg";
     String regexPassword="\\\\S{5,}";
@@ -146,6 +155,8 @@ public boolean validTeacher(String email,String password){
 }
 
 
+
+//validate students by their faculty number and egn
 public boolean validStudent(String facultyNumber,String egn){
     String regexFacultyNumber="[1-9]{9}";
     String regexEgn="[0-9]{10}";
@@ -161,6 +172,8 @@ public boolean validStudent(String facultyNumber,String egn){
     }
 
 
+
+    //find a student by faculty number
 public Student findStudentByFaclultyNumber(String facultyNumber){
     for(User user:listUser){
         if(user.getUserType()==TypeUser.Student){
@@ -174,6 +187,8 @@ return null;
 }
 
 
+
+//adding grade
 public boolean addGrade(Teacher teacher){
 printToClient.println("Enter subject: ");
 String subject=inputFromClient.next();
@@ -194,6 +209,8 @@ if(student==null){
 }
 }
 
+
+//teacher's menu
 public void teacherMenu(Teacher teacher){
     printToClient.println("Welcome "+teacher.getUserName());
     printToClient.println("Enter rating....");
@@ -205,7 +222,7 @@ public void teacherMenu(Teacher teacher){
 }
 
 
-
+//sorting student's grades by semester and subject's name
 public String getStudentRating(Student student){
     printToClient.println("Your grades are:");
     ArrayList<Grade> studentGrades = student.getListGrade();
@@ -223,6 +240,8 @@ public String getStudentRating(Student student){
     return grades.toString();
 }
 
+
+//student menu
 public void studentMenu(Student student){
     printToClient.println("Welcome "+student.getUserName());
     String grades=getStudentRating(student);
