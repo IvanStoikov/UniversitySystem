@@ -28,6 +28,7 @@ public UniversitySystem(){
         inputFromClient = new Scanner(clintSocket.getInputStream());
         //Created test user to test our system works correctly
         Admin admin=new Admin("admin","123456");
+        listUser.add(admin);
         printToClient.println("Enter userName:  ");
         String userName=inputFromClient.next();
         printToClient.println("Enter password: ");
@@ -42,9 +43,11 @@ public UniversitySystem(){
                         break;
                     case Teacher:
                         Teacher teacher= (Teacher) user;
+                        teacherMenu(teacher);
                         break;
                     case Student:
                         Student student= (Student) user;
+                        studentMenu(student);
                         break;
                 }
             }else{
@@ -203,9 +206,29 @@ public void teacherMenu(Teacher teacher){
 
 
 
+public String getStudentRating(Student student){
+    printToClient.println("Your grades are:");
+    ArrayList<Grade> studentGrades = student.getListGrade();
+    studentGrades.sort((gradeOne, gradeTwo) -> {
+        if (gradeOne.getSemester() == gradeTwo.getSemester()) {
+            return gradeOne.getSubject().compareTo(gradeTwo.getSubject());
+        } else {
+            return gradeOne.getSemester() - gradeTwo.getSemester();
+        }
+    });
+    StringBuilder grades = new StringBuilder();
+    for (Grade grade : studentGrades) {
+        grades.append(grade.getSubject()).append(" ").append(grade.getRating()).append(" ").append(grade.getSemester()).append("\n");
+    }
+    return grades.toString();
+}
 
-
-
+public void studentMenu(Student student){
+    printToClient.println("Welcome "+student.getUserName());
+    String grades=getStudentRating(student);
+    printToClient.println(grades);
+    printToClient.println("Thank you and goodbye + " + student.getUserName() + "!");
+}
 
 
 
