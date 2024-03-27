@@ -158,7 +158,48 @@ public boolean validStudent(String facultyNumber,String egn){
     }
 
 
+public Student findStudentByFaclultyNumber(String facultyNumber){
+    for(User user:listUser){
+        if(user.getUserType()==TypeUser.Student){
+            Student student=(Student) user;
+            if(facultyNumber.equals(student.getFacultyNumber())){
+                return student;
+            }
+        }
+    }
+return null;
+}
 
+
+public boolean addGrade(Teacher teacher){
+printToClient.println("Enter subject: ");
+String subject=inputFromClient.next();
+printToClient.println("Enter semester: ");
+int semester=inputFromClient.nextInt();
+printToClient.println("Enter rating: ");
+double rating=inputFromClient.nextDouble();
+printToClient.println("Enter student's faculty number ");
+String facultyNumber=inputFromClient.next();
+Student student=findStudentByFaclultyNumber(facultyNumber);
+if(student==null){
+    printToClient.println("This student doesn't exist");
+    return false;
+}else {
+    Grade grade = new Grade(subject, semester, rating);
+    teacher.addGrade(student, grade);
+    return true;
+}
+}
+
+public void teacherMenu(Teacher teacher){
+    printToClient.println("Welcome "+teacher.getUserName());
+    printToClient.println("Enter rating....");
+    if(addGrade(teacher)){
+        printToClient.println("The rating is successfully added");
+    }else{
+        printToClient.println("The rating is not added");
+    }
+}
 
 
 
